@@ -16,7 +16,11 @@ app.get('/', (req, res) => {
 })
 
 // CONTROLLERS 
-const bandsController = require('./controllers/bands_controller')
+const bandsController = require('./controllers/band_controller')
+app.use('/bands', bandsController)
+const eventController = require('./controllers/event_controller')
+app.use('/bands', bandsController)
+const stageController = require('./controllers/stage_controller')
 app.use('/bands', bandsController)
 
 // LISTEN
