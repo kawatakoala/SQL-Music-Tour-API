@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const band = require('./band');
 module.exports = (sequelize, DataTypes) => {
   class Meet_Greet extends Model {
     /**

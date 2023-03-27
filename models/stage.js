@@ -10,17 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({ Event, Stage_Event, Set_Time }) {
-      // events 
       Stage.belongsToMany(Event, {
-        foreignKey: "stage_id",
-        as: "events",
+        foreignKey: 'stage_id',
+        as: 'events',
         through: Stage_Event
       })
-
-      // set times 
       Stage.hasMany(Set_Time, {
-        foreignKey: "stage_id",
-        as: "set_times"
+        foreignKey: 'stage_id',
+        as: 'set_times'
       })
     }
   }
@@ -28,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
     stage_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoInrcrement: true
+      autoIncrement: true
     },
-    stage_name: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -41,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Stage',
-    tableName: 'Stage',
+    tableName: 'stage',
     timestamps: false
   });
   return Stage;

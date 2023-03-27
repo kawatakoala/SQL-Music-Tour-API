@@ -1,6 +1,6 @@
 const band = require('express').Router()
 const db = require('../models')
-const { Band, Meet_Greet, Event, Set_Time } = db
+const { Band, Meet_Greet, Event, Set_Time, Stage } = db
 const { Op } = require('sequelize')
 
 // FIND ALL BANDS
@@ -23,6 +23,7 @@ band.get('/', async (req, res) => {
 band.get('/:name', async (req, res) => {
     try {
         const foundBand = await Band.findOne({
+            attributes: [['name', 'Band Name'], ['available_start_time', 'Start Time'], ['end_time', 'End Time']],
             where: {
                 name: req.params.name
             },
@@ -30,9 +31,15 @@ band.get('/:name', async (req, res) => {
                 {
                     model: Meet_Greet,
                     as: 'meet_greets',
+                    attributes: {
+                        exclude: ['meet_greet_id', 'band_id', 'event_id']
+                    },
                     include: {
                         model: Event,
                         as: 'event',
+                        attributes: {
+                            exclude: ['event_id']
+                        },
                         where: {
                             name: { [Op.like]: `%${req.query.event ? req.query.event : ''}%` }
                         }
@@ -41,9 +48,15 @@ band.get('/:name', async (req, res) => {
                 {
                     model: Set_Time,
                     as: 'set_times',
+                    attributes: {
+                        exclude: ['set_time_id', 'event_id', 'band_id', 'stage_id']
+                    },
                     include: {
                         model: Event,
                         as: 'event',
+                        attributes: {
+                            exclude: ['event_id']
+                        },
                         where: {
                             name: { [Op.like]: `%${req.query.event ? req.query.event : ''}%` }
                         }
